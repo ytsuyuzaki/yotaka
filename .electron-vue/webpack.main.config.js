@@ -71,7 +71,8 @@ if (process.env.NODE_ENV !== 'production') {
  * Adjust mainConfig for production settings
  */
 if (process.env.NODE_ENV === 'production') {
-  mainConfig.plugins.push(    new webpack.DefinePlugin({
+  mainConfig.plugins.push(
+    new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"production"'
     })
   )

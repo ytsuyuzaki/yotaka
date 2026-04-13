@@ -56,6 +56,12 @@ let webConfig = {
               less: 'vue-style-loader!css-loader!less-loader'
             }
           }
+        },
+        {
+          loader: 'eslint-loader',
+          options: {
+            formatter: require('eslint-friendly-formatter')
+          }
         }]
       },
       {
@@ -129,31 +135,8 @@ let webConfig = {
 if (process.env.NODE_ENV === 'production') {
   webConfig.devtool = false
 
-  webConfig.plugins.push(    new CopyWebpackPlugin([
-      {
-        from: path.join(__dirname, '../static'),
-        to: path.join(__dirname, '../dist/web/static'),
-        ignore: ['.*']
-      }
-    ]),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': '"production"'
-    }),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true
-    })
-  )
-}
-
-module.exports = webConfig
-
-/**
- * Adjust webConfig for production settings
- */
-if (process.env.NODE_ENV === 'production') {
-  webConfig.devtool = false
-
-  webConfig.plugins.push(    new CopyWebpackPlugin([
+  webConfig.plugins.push(
+    new CopyWebpackPlugin([
       {
         from: path.join(__dirname, '../static'),
         to: path.join(__dirname, '../dist/web/static'),
