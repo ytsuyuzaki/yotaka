@@ -5,6 +5,7 @@ import util from 'util'
 import Store from 'electron-store'
 import log from 'electron-log'
 import fs from 'fs'
+import { buildMediaList } from './feed-utils'
 // import { getAudioDurationInSeconds } from 'get-audio-duration'
 
 const glob = util.promisify(require('glob'))
@@ -38,31 +39,7 @@ app.get('/rss.xml', async function (req, res) {
 
     const files = await glob(path.join(store.get('media.path'), '*.*'))
 
-    const list = []
-    for (const file of files) {
-      const extname = path.extname(file)
-
-      // 対応音声ファイル: M4A, MP3, MOV, MP4, M4V
-      if (!extname.match(/\.m4a|\.mp3|\.mov|\.mp4|\.m4v/i)) {
-        continue
-      }
-      const title = path.basename(file, extname)
-      const stats = fs.statSync(file)
-      const date = stats.atime
-      const url = __url + '/media/' + path.basename(file)
-      // TODO パッケージ作成するとspawnエラーが出るので対応
-      // const duration = await getAudioDurationInSeconds(file)
-      const duration = ''
-      list.push({
-        file,
-        date,
-        title,
-        url,
-        duration
-      })
-    }
-    // 並び順をファイルの作成日時順(降順)に
-    list.sort((a, b) => b.date - a.date)
+    const list = buildMediaList(files, __url, fs.statSync)
 
     for (const data of list) {
       const file = data.file

@@ -21,7 +21,7 @@
 ## 使い方
 
 [ここから最新版をダウンロード](https://github.com/soramugi/yotaka/releases)
-(現状Windows,Mac版のみ対応、将来的にはLinuxも対応予定)
+(Windows, Mac, Linux版に対応)
 
 インストール実行後、起動
 ツールバーにアイコンが追加される
@@ -73,7 +73,7 @@ A: ファイヤーウォールの設定を見直してください
 
 - [ ] Android版での取得失敗原因調査
 - [x] Windows環境の実行
-- [ ] Linux環境での実行
+- [x] Linux環境での実行
 - [ ] ファイルの再生時間をfeedに追加
 - [ ] travisでの自動ビルドに対応
 - [ ] IP直アクセスを回避できないか?
