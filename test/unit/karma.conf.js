@@ -1,7 +1,7 @@
 'use strict'
 
 const path = require('path')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const webpack = require('webpack')
 
 const baseConfig = require('../../.electron-vue/webpack.renderer.config')
@@ -11,10 +11,14 @@ const projectRoot = path.resolve(__dirname, '../../src/renderer')
 process.env.BABEL_ENV = 'test'
 
 let webpackConfig = merge(baseConfig, {
-  devtool: '#inline-source-map',
+  devtool: 'inline-source-map',
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': '"testing"'
+      'process.env.NODE_ENV': '"testing"',
+      'process.env': JSON.stringify({ NODE_ENV: 'testing' }),
+      '__VUE_OPTIONS_API__': 'true',
+      '__VUE_PROD_DEVTOOLS__': 'false',
+      '__VUE_PROD_HYDRATION_MISMATCH_DETAILS__': 'false'
     })
   ]
 })
@@ -23,16 +27,32 @@ let webpackConfig = merge(baseConfig, {
 delete webpackConfig.entry
 delete webpackConfig.externals
 delete webpackConfig.output.libraryTarget
+webpackConfig.target = 'web'
+webpackConfig.resolve.fallback = Object.assign({}, webpackConfig.resolve.fallback, {
+  os: false
+})
+webpackConfig.plugins = webpackConfig.plugins.filter(plugin => ![
+  'HtmlWebpackPlugin',
+  'HotModuleReplacementPlugin',
+  'NoEmitOnErrorsPlugin'
+].includes(plugin.constructor.name))
 
 // apply vue option to apply isparta-loader on js
-webpackConfig.module.rules
-  .find(rule => rule.use.loader === 'vue-loader').use.options.loaders.js = 'babel-loader'
+const vueRule = webpackConfig.module.rules.find(rule => String(rule.test) === '/\\.vue$/')
+const vueLoader = vueRule && Array.isArray(vueRule.use)
+  ? vueRule.use.find(use => use.loader === 'vue-loader')
+  : vueRule && vueRule.use
+if (vueLoader && vueLoader.options && vueLoader.options.loaders) {
+  vueLoader.options.loaders.js = 'babel-loader'
+}
 
 module.exports = config => {
+  const browser = process.env.KARMA_BROWSER || 'jsdom'
   config.set({
-    browsers: ['visibleElectron'],
+    browsers: [browser],
+    hostname: '127.0.0.1',
     client: {
-      useIframe: false
+      useIframe: true
     },
     coverageReporter: {
       dir: './coverage',
@@ -44,7 +64,10 @@ module.exports = config => {
     customLaunchers: {
       'visibleElectron': {
         base: 'Electron',
-        flags: ['--show']
+        flags: ['--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage', '--headless'],
+        browserWindowOptions: {
+          show: false
+        }
       }
     },
     frameworks: ['mocha', 'chai'],
