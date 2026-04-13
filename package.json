@@ -77,7 +77,6 @@
     "vue-electron": "^1.0.6"
   },
   "devDependencies": {
-    "@vue/compiler-sfc": "^3.5.13",
     "ajv": "^6.12.6",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
@@ -133,6 +132,7 @@
     "vue-html-loader": "^1.2.4",
     "vue-loader": "^17.4.2",
     "vue-style-loader": "^4.1.0",
+    "@vue/compiler-sfc": "^3.5.13",
     "webpack": "^5.104.1",
     "webpack-cli": "^6.0.1",
     "webpack-dev-server": "^5.2.1",
