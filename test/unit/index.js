@@ -1,13 +1,13 @@
-import Vue from 'vue'
-Vue.config.devtools = false
-Vue.config.productionTip = false
+window.process = window.process || { env: {} }
+window.process.versions = window.process.versions || {}
+window.process.versions.electron = window.process.versions.electron || '0.0.0'
+global.process = window.process
+window.require = window.require || (name => {
+  if (name === 'electron') return { shell: { openExternal: () => {} } }
+  if (name === 'os') return { platform: () => 'test' }
+  return {}
+})
 
 // require all test files (files that ends with .spec.js)
-const testsContext = require.context('./specs', true, /\.spec$/)
+const testsContext = require.context('./specs', true, /\.spec\.js$/)
 testsContext.keys().forEach(testsContext)
-
-// require all src files except main.js for coverage.
-// you can also change this to match only the subset of files that
-// you want coverage for.
-const srcContext = require.context('../../src/renderer', true, /^\.\/(?!main(\.js)?$)/)
-srcContext.keys().forEach(srcContext)
