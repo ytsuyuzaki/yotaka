@@ -1,12 +1,15 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
+import App from './App.vue'
 
-import App from './App'
+const app = createApp(App)
 
-if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
-Vue.config.productionTip = false
+if (!process.env.IS_WEB) {
+  const vueElectronModule = require('vue-electron')
+  const vueElectron = vueElectronModule.default || vueElectronModule
 
-/* eslint-disable no-new */
-new Vue({
-  components: { App },
-  template: '<App/>'
-}).$mount('#app')
+  if (vueElectron && typeof vueElectron.install === 'function') {
+    app.use(vueElectron)
+  }
+}
+
+app.mount('#app')
