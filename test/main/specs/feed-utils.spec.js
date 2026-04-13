@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { buildMediaList, isSupportedMediaFile } from '../../../../src/main/feed-utils'
+import { buildMediaList, isSupportedMediaFile } from '../../../src/main/feed-utils'
 
 describe('feed-utils', () => {
   describe('isSupportedMediaFile', () => {
