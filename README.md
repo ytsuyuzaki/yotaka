@@ -83,7 +83,32 @@ A: ファイヤーウォールの設定を見直してください
 
 #### Build Setup
 
+Ubuntu環境では、Electronのビルド・テスト実行に必要な共有ライブラリを事前に追加してください。
+
 ``` bash
+# install Ubuntu packages for Electron build/test
+sudo apt-get update
+sudo apt-get install -y \
+  libatk1.0-0 \
+  libatk-bridge2.0-0 \
+  libcups2 \
+  libgtk-3-0 \
+  libnss3 \
+  libxss1 \
+  libx11-xcb1 \
+  libxcomposite1 \
+  libxdamage1 \
+  libxfixes3 \
+  libxrandr2 \
+  libgbm1 \
+  xvfb
+
+# Ubuntu 24.04 or later
+sudo apt-get install -y libasound2t64
+
+# Ubuntu 22.04 or earlier
+# sudo apt-get install -y libasound2
+
 # install dependencies
 npm install
 
@@ -96,6 +121,8 @@ npm run build
 # run unit & end-to-end tests
 npm test
 
+# run tests in a headless Ubuntu environment
+xvfb-run -a npm test
 
 # lint all JS/Vue component files in `src/`
 npm run lint

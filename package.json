@@ -23,8 +23,8 @@
     "pack": "npm run pack:main && npm run pack:renderer",
     "pack:main": "cross-env NODE_ENV=production webpack --progress --config .electron-vue/webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --config .electron-vue/webpack.renderer.config.js",
-    "test": "npm run unit && npm run e2e",
-    "test:main": "cross-env BABEL_ENV=main npx mocha --require babel-register \"test/main/**/*.spec.js\"",
+    "test": "npm run test:main && npm run unit && npm run e2e",
+    "test:main": "cross-env BABEL_ENV=main npx mocha --require @babel/register \"test/main/**/*.spec.js\"",
     "unit": "npx karma start test/unit/karma.conf.js",
     "postinstall": "npm run lint:fix || echo postinstall lint:fix failed non-blocking"
   },
@@ -65,25 +65,28 @@
       "icon": "build/icons/yotaka_icon.png"
     }
   },
+  "overrides": {
+    "diff": "^8.0.3",
+    "serialize-javascript": "^7.0.5"
+  },
   "dependencies": {
     "electron-log": "^5.4.3",
     "electron-store": "^11.0.2",
     "electron-updater": "^6.3.0",
     "express": "^5.2.1",
-    "ip": "^2.0.1",
     "podcast": "^2.0.1",
     "qrcode": "^1.5.4",
     "vue": "^3.5.32",
     "vue-electron": "^1.0.6"
   },
   "devDependencies": {
-    "@vue/compiler-sfc": "^3.5.32",
-    "ajv": "^8.18.0",
     "@babel/core": "^7.29.0",
     "@babel/preset-env": "^7.29.2",
+    "@babel/register": "^7.28.6",
+    "@vue/compiler-sfc": "^3.5.32",
+    "ajv": "^8.18.0",
     "babel-loader": "^10.1.1",
     "babel-plugin-istanbul": "^8.0.0",
-    "babel-register": "^6.26.0",
     "cfonts": "^3.3.1",
     "chai": "^4.5.0",
     "chalk": "^2.4.2",
@@ -91,7 +94,6 @@
     "cross-env": "^10.1.0",
     "css-loader": "^7.1.4",
     "del": "^3.0.0",
-    "devtron": "^1.4.0",
     "electron": "^41.2.0",
     "electron-builder": "^26.8.1",
     "electron-debug": "^4.1.0",
@@ -111,25 +113,22 @@
     "karma-sourcemap-loader": "^0.4.0",
     "karma-spec-reporter": "^0.0.36",
     "karma-webpack": "^5.0.1",
-    "lodash.merge": "^4.6.2",
     "mini-css-extract-plugin": "2.10.2",
     "mocha": "^11.7.5",
-    "multispinner": "^0.2.1",
     "node-loader": "^2.1.0",
-    "sass": "^1.95.1",
+    "playwright": "^1.59.1",
     "require-dir": "^1.2.0",
+    "sass": "^1.95.1",
     "sass-loader": "^16.0.7",
-    "spectron": "^19.0.0",
     "style-loader": "^4.0.0",
     "url-loader": "^4.1.1",
-    "vue-html-loader": "^1.2.4",
+    "vue-eslint-parser": "^10.2.0",
     "vue-loader": "^17.4.2",
     "vue-style-loader": "^4.1.3",
     "webpack": "^5.106.1",
     "webpack-cli": "^7.0.2",
     "webpack-dev-server": "^5.2.3",
     "webpack-hot-middleware": "^2.26.1",
-    "webpack-merge": "^6.0.1",
-    "vue-eslint-parser": "^10.2.0"
+    "webpack-merge": "^6.0.1"
   }
 }

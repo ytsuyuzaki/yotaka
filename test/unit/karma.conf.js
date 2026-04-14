@@ -28,8 +28,8 @@ delete webpackConfig.entry
 delete webpackConfig.externals
 delete webpackConfig.output.libraryTarget
 webpackConfig.target = 'web'
-webpackConfig.resolve.fallback = Object.assign({}, webpackConfig.resolve.fallback, {
-  os: false
+webpackConfig.resolve.alias = Object.assign({}, webpackConfig.resolve.alias, {
+  os: path.resolve(__dirname, './mocks/os.js')
 })
 webpackConfig.plugins = webpackConfig.plugins.filter(plugin => ![
   'HtmlWebpackPlugin',

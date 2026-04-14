@@ -4,10 +4,9 @@ describe('Launch', function () {
   beforeEach(utils.beforeEach)
   afterEach(utils.afterEach)
 
-  it('shows the proper application title', function () {
-    return this.app.client.getTitle()
-      .then(title => {
-        expect(title).to.equal('yotaka')
-      })
+  it('shows the proper application title', async function () {
+    const window = await this.app.firstWindow()
+    const title = await window.title()
+    expect(title).to.equal('yotaka')
   })
 })

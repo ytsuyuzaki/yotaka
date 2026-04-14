@@ -3,7 +3,7 @@
 import { app, BrowserWindow, clipboard, dialog, nativeImage, Menu, Tray } from 'electron'
 import Store from 'electron-store'
 import log from 'electron-log'
-import ip from 'ip'
+import os from 'os'
 import path from 'path'
 import QRCode from 'qrcode'
 import './auto-update'
@@ -44,13 +44,27 @@ if (!store.get('media.path')) {
 // yotaka -> よたか -> 435
 global.__port = '4350'
 
-const networkIp = ip.address()
+const networkIp = getNetworkIp()
 global.__url = 'http://' + networkIp + ':' + global.__port
 
 // podcastのサーバーを立ち上げる
 require('./server')
 
 let tray = null
+
+function getNetworkIp () {
+  const interfaces = os.networkInterfaces()
+
+  for (const entries of Object.values(interfaces)) {
+    for (const entry of entries || []) {
+      if (entry.family === 'IPv4' && !entry.internal) {
+        return entry.address
+      }
+    }
+  }
+
+  return '127.0.0.1'
+}
 
 function createWindow () {
   const image = nativeImage.createFromPath(menuIcon)

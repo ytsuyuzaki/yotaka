@@ -5,10 +5,7 @@ process.env.NODE_ENV = 'production'
 const { say } = require('cfonts')
 const chalk = require('chalk')
 const del = require('del')
-const { spawn } = require('child_process')
 const webpack = require('webpack')
-const Multispinner = require('multispinner')
-
 
 const mainConfig = require('./webpack.main.config')
 const rendererConfig = require('./webpack.renderer.config')
@@ -34,47 +31,27 @@ function build () {
 
   del.sync(['dist/electron/*', '!.gitkeep'])
 
-  const tasks = ['main', 'renderer']
-  const m = new Multispinner(tasks, {
-    preText: 'building',
-    postText: 'process'
-  })
-
-  let results = ''
-
-  m.on('success', () => {
+  Promise.all([
+    pack('main', mainConfig).then(result => ({ name: 'main', result })),
+    pack('renderer', rendererConfig).then(result => ({ name: 'renderer', result }))
+  ]).then(results => {
     process.stdout.write('\x1B[2J\x1B[0f')
-    console.log(`\n\n${results}`)
+    console.log(`\n\n${results.map(({ result }) => result).join('\n\n')}`)
     console.log(`${okayLog}take it away ${chalk.yellow('`electron-builder`')}\n`)
     process.exit()
-  })
-
-  pack(mainConfig).then(result => {
-    results += result + '\n\n'
-    m.success('main')
   }).catch(err => {
-    m.error('main')
-    console.log(`\n  ${errorLog}failed to build main process`)
-    console.error(`\n${err}\n`)
-    process.exit(1)
-  })
-
-  pack(rendererConfig).then(result => {
-    results += result + '\n\n'
-    m.success('renderer')
-  }).catch(err => {
-    m.error('renderer')
-    console.log(`\n  ${errorLog}failed to build renderer process`)
+    const name = err && err.name ? err.name : 'unknown'
+    console.log(`\n  ${errorLog}failed to build ${name} process`)
     console.error(`\n${err}\n`)
     process.exit(1)
   })
 }
 
-function pack (config) {
+function pack (name, config) {
   return new Promise((resolve, reject) => {
     config.mode = 'production'
     webpack(config, (err, stats) => {
-      if (err) reject(err.stack || err)
+      if (err) reject(Object.assign(new Error(err.stack || err), { name }))
       else if (stats.hasErrors()) {
         let err = ''
 
@@ -87,7 +64,7 @@ function pack (config) {
           err += `    ${line}\n`
         })
 
-        reject(err)
+        reject(Object.assign(new Error(err), { name }))
       } else {
         resolve(stats.toString({
           chunks: false,

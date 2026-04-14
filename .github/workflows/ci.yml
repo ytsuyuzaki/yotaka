@@ -23,11 +23,30 @@ jobs:
           node-version: 24
           cache: npm
 
+      - name: Install Ubuntu packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libatk1.0-0 \
+            libatk-bridge2.0-0 \
+            libcups2 \
+            libgtk-3-0 \
+            libnss3 \
+            libxss1 \
+            libx11-xcb1 \
+            libxcomposite1 \
+            libxdamage1 \
+            libxfixes3 \
+            libxrandr2 \
+            libgbm1 \
+            libasound2 \
+            xvfb
+
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
       - name: Run tests
-        run: npm run test:main
+        run: xvfb-run -a npm run test
 
       - name: Build application
         run: npm run build:dir

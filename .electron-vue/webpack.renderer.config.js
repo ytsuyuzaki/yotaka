@@ -61,10 +61,6 @@ let rendererConfig = {
         }]
       },
       {
-        test: /\.html$/,
-        use: 'vue-html-loader'
-      },
-      {
         test: /\.js$/,
         use: 'babel-loader',
         exclude: /node_modules/
