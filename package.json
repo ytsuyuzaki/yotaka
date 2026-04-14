@@ -68,7 +68,7 @@
   "dependencies": {
     "electron-log": "^5.4.3",
     "electron-store": "^11.0.2",
-    "electron-updater": "^6.8.3",
+    "electron-updater": "^6.3.0",
     "express": "^5.2.1",
     "ip": "^2.0.1",
     "podcast": "^2.0.1",
