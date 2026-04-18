@@ -8,6 +8,8 @@ import path from 'path'
 import QRCode from 'qrcode'
 import './auto-update'
 
+app.setName('yotaka')
+
 let mediaPath = path.join(__dirname, 'static')
 let menuIcon = path.join(__dirname, 'static', 'yotaka_menu_icon.png')
 

@@ -6,8 +6,7 @@ describe('Launch', function () {
 
   it('shows the proper application title', async function () {
     this.timeout(10000)
-    const window = await this.app.firstWindow()
-    const title = await window.title()
+    const title = await this.app.evaluate(({ app }) => app.getName())
     expect(title).to.equal('yotaka')
   })
 })

@@ -17,7 +17,7 @@
     "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
     "build:web": "cross-env BUILD_TARGET=web node .electron-vue/build.js",
     "dev": "node .electron-vue/dev-runner.js",
-    "e2e": "npm run pack && mocha test/e2e",
+    "e2e": "npm run pack && node test/run-e2e.js",
     "lint": "npx eslint -f stylish \"src/**/*.{js,vue}\" \"test/**/*.{js,vue}\"",
     "lint:fix": "npx eslint -f stylish --fix \"src/**/*.{js,vue}\" \"test/**/*.{js,vue}\"",
     "pack": "npm run pack:main && npm run pack:renderer",

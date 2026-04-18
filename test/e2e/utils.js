@@ -2,8 +2,17 @@ import electronPath from 'electron'
 import { _electron as electron } from 'playwright'
 import { spawnSync } from 'child_process'
 
+function electronEnv () {
+  const env = { ...process.env }
+  delete env.ELECTRON_RUN_AS_NODE
+  return env
+}
+
 function canLaunchElectron () {
-  const result = spawnSync(electronPath, ['--version'], { encoding: 'utf8' })
+  const result = spawnSync(electronPath, ['--no-sandbox', '--version'], {
+    encoding: 'utf8',
+    env: electronEnv()
+  })
   if (result.status === 0) {
     return true
   }
@@ -31,6 +40,7 @@ export default {
       this.app = await electron.launch({
         executablePath: electronPath,
         args: ['dist/electron/main.js'],
+        env: electronEnv(),
         timeout: 10000
       })
     } catch (err) {
