@@ -18,10 +18,93 @@
 
 などを目的としたポッドキャスト配信に使用できます。
 
+## インストール方法
+
+### リリース版（推奨）
+
+[ここから最新版をダウンロード](https://github.com/soramugi/yotaka/releases)
+(Windows, macOS, Linux版に対応)
+
+#### Windows
+
+1. `yotaka-*.exe` インストーラーをダウンロード
+2. インストーラーを実行してインストール
+
+インストール先: `C:\Users\<ユーザー名>\AppData\Local\Programs\yotaka`
+
+#### macOS
+
+1. `yotaka-*.dmg` をダウンロード
+2. DMG を開いてアプリケーションフォルダへドラッグ
+
+#### Linux
+
+以下のいずれかの形式をダウンロードしてインストールします。
+
+**AppImage（どのディストリビューションでも動作）**
+
+```bash
+chmod +x yotaka-*.AppImage
+./yotaka-*.AppImage
+```
+
+**Debian / Ubuntu（.deb）**
+
+```bash
+sudo dpkg -i yotaka-*.deb
+```
+
+インストール後は `yotaka` コマンドで起動できます。
+
+**Red Hat / Fedora / CentOS（.rpm）**
+
+```bash
+sudo rpm -i yotaka-*.rpm
+```
+
+---
+
+### ソースからビルドする場合
+
+ビルド成果物は `build/` ディレクトリに出力されます。
+
+#### macOS向けビルド
+
+```bash
+npm run build:mac
+```
+
+#### Windows向けビルド（Dockerが必要）
+
+```bash
+./build_win.sh
+# または
+npm run build:win
+```
+
+#### Linux向けビルド（Dockerが必要）
+
+```bash
+./build_linux.sh
+# または
+npm run build:linux
+```
+
+Dockerを使ったビルドスクリプト（`build_linux.sh` / `build_win.sh`）は、
+`electronuserland/builder` イメージを使用してクロスプラットフォームビルドを行います。
+実行前に `GH_TOKEN` 環境変数を設定してください（GitHubリリースへの公開を行う場合）。
+
+```bash
+export GH_TOKEN=<your_github_token>
+./build_linux.sh
+```
+
+---
+
 ## 使い方
 
 [ここから最新版をダウンロード](https://github.com/soramugi/yotaka/releases)
-(Windows, Mac, Linux版に対応)
+(Windows, macOS, Linux版に対応)
 
 インストール実行後、起動
 ツールバーにアイコンが追加される
