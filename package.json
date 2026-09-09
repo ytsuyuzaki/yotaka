@@ -70,8 +70,9 @@
     "body-parser": "^1.20.6",
     "diff": "^8.0.3",
     "fast-uri": "^3.1.7",
-    "js-yaml": "^4.3.0",
+    "js-yaml": "^4.3.2",
     "postcss": "^8.5.23",
+    "qs": "^6.16.0",
     "serialize-javascript": "^7.0.5",
     "tar": "^7.5.22",
     "uuid": "^14.0.0"
