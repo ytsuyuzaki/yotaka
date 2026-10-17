@@ -63,7 +63,10 @@
       "icon": "build/icons/yotaka_icon.png"
     },
     "linux": {
-      "icon": "build/icons/yotaka_icon.png"
+      "icon": "build/icons/yotaka_icon.png",
+      "target": [
+        "AppImage"
+      ]
     }
   },
   "overrides": {
