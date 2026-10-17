@@ -63,7 +63,10 @@
       "icon": "build/icons/yotaka_icon.png"
     },
     "linux": {
-      "icon": "build/icons/yotaka_icon.png"
+      "icon": "build/icons/yotaka_icon.png",
+      "target": [
+        "AppImage"
+      ]
     }
   },
   "overrides": {
@@ -84,7 +87,7 @@
     "express": "^5.2.1",
     "podcast": "^2.0.1",
     "qrcode": "^1.5.4",
-    "vue": "^3.5.32",
+    "vue": "^3.5.44",
     "vue-electron": "^1.0.6"
   },
   "devDependencies": {
